@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useRef } from 'react'
 
 const AppContext = React.createContext();
 
@@ -8,14 +8,25 @@ const AppProvider = ({ children }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     //state for sidebar toggle
     const [showSidebar, setShowSidebar] = useState(false);
-
+    //set ref for modal overaly
+    const modalOverlayRef = useRef(null);
     // MODAL
     const openModalHandler = (e) => {
         e.preventDefault();
         setIsModalOpen(true);
     }
-    const closeModal = () => {
+    //close modal on X click
+    const closeModal = (e) => {
+        e.preventDefault();
         setIsModalOpen(false);
+    }
+    //close modal on outside of modal content click
+    const closeModalOnOverlayClick = (e) => {
+        //only invoke state change if we clicking on outside of modal content and
+        //isModalOpen in true state
+        if (e.target === modalOverlayRef.current && isModalOpen) {
+            setIsModalOpen(false);
+        }
     }
     // SIDEBAR
     const openSidebarHandler = (e) => {
@@ -26,7 +37,7 @@ const AppProvider = ({ children }) => {
         setShowSidebar(false);
     }
     return <AppContext.Provider
-        value={{ isModalOpen, showSidebar, openModalHandler, closeModal, openSidebarHandler, closeSidebar }}>{children}
+        value={{ closeModalOnOverlayClick, modalOverlayRef, isModalOpen, showSidebar, openModalHandler, closeModal, openSidebarHandler, closeSidebar }}>{children}
     </AppContext.Provider>
 }
 
