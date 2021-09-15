@@ -1,10 +1,25 @@
 import React from 'react'
-
+import { AiOutlineClose } from 'react-icons/ai';
 const Sidebar = () => {
     return (
-        <div>
+        <aside className="sidebar show-sidebar">
+            <div className="sidebar-header">
+                <img src="" alt="logo" className="logo" />
+                <button className="close-btn">
+                    <AiOutlineClose />
+                </button>
 
-        </div>
+
+            </div>
+            <ul className="links">
+                <li><a href="#">home</a></li>
+                <li><a href="#">etc</a></li>
+            </ul>
+            <ul className="social-icons">
+                <li><a href="#">twitter</a></li>
+
+            </ul>
+        </aside>
     )
 }
 
